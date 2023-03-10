@@ -20,54 +20,63 @@ class ReturnLabelRequestBuilderTest extends TestCase
     public function dataProvider(): array
     {
         $missingReceiverIdBuilder = new ReturnLabelRequestBuilder();
-        $missingReceiverIdBuilder->setAccountDetails('');
         $missingReceiverIdBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
 
+        $invalidReceiverIdBuilder = new ReturnLabelRequestBuilder();
+        $invalidReceiverIdBuilder->setReceiverId('');
+        $invalidReceiverIdBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
+
+        $invalidReceiverIdsBuilder = new ReturnLabelRequestBuilder();
+        $invalidReceiverIdsBuilder->setReceiverIds(['CHE' => 'che', 'DNK' => 'dnk']);
+        $invalidReceiverIdsBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
+
         $missingNameBuilder = new ReturnLabelRequestBuilder();
-        $missingNameBuilder->setAccountDetails('deu');
+        $missingNameBuilder->setReceiverId('deu');
         $missingNameBuilder->setShipper('', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
 
         $missingCityBuilder = new ReturnLabelRequestBuilder();
-        $missingCityBuilder->setAccountDetails('deu');
+        $missingCityBuilder->setReceiverId('deu');
         $missingCityBuilder->setShipper('Test Tester', 'DEU', '04229', '', 'Klingerweg', '6');
 
         $missingPostalCodeBuilder = new ReturnLabelRequestBuilder();
-        $missingPostalCodeBuilder->setAccountDetails('deu');
+        $missingPostalCodeBuilder->setReceiverId('deu');
         $missingPostalCodeBuilder->setShipper('Test Tester', 'DEU', '', 'Leipzig', 'Klingerweg', '6');
 
         $wrongCountryBuilder = new ReturnLabelRequestBuilder();
-        $wrongCountryBuilder->setAccountDetails('deu');
+        $wrongCountryBuilder->setReceiverId('deu');
         $wrongCountryBuilder->setShipper('Test Tester', 'DE', '04229', 'Leipzig', 'Klingerweg', '6');
 
         $invalidWeightBuilder = new ReturnLabelRequestBuilder();
-        $invalidWeightBuilder->setAccountDetails('deu');
+        $invalidWeightBuilder->setReceiverId('deu');
         $invalidWeightBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
         $invalidWeightBuilder->setPackageWeight(3, 'lbs');
 
         $invalidCurrencyBuilder = new ReturnLabelRequestBuilder();
-        $invalidCurrencyBuilder->setAccountDetails('deu');
+        $invalidCurrencyBuilder->setReceiverId('deu');
         $invalidCurrencyBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
         $invalidCurrencyBuilder->setPackageValue(59, 'SFR');
 
         $invalidCustomsCurrencyBuilder = new ReturnLabelRequestBuilder();
-        $invalidCustomsCurrencyBuilder->setAccountDetails('che');
+        $invalidCustomsCurrencyBuilder->setReceiverId('che');
         $invalidCustomsCurrencyBuilder->setShipper('Test Tester', 'CHE', '8005', 'Zürich', 'Lagerstrasse', '10');
         $invalidCustomsCurrencyBuilder->addCustomsItem(3, 'DHL Foo', 59, 'SFR', 800, 'kg', 'DEU', '123456');
 
         $tooManyPositionsBuilder = new ReturnLabelRequestBuilder();
-        $tooManyPositionsBuilder->setAccountDetails('che');
+        $tooManyPositionsBuilder->setReceiverId('che');
         $tooManyPositionsBuilder->setShipper('Test Tester', 'CHE', '8005', 'Zürich', 'Lagerstrasse', '10');
         for ($i = 1; $i < 22; $i++) {
             $tooManyPositionsBuilder->addCustomsItem(3, 'DHL Foo', 59, 'EUR', 800, 'kg', 'DEU', '123456');
         }
 
         $wrongOriginBuilder = new ReturnLabelRequestBuilder();
-        $wrongOriginBuilder->setAccountDetails('che');
+        $wrongOriginBuilder->setReceiverId('che');
         $wrongOriginBuilder->setShipper('Test Tester', 'CHE', '8005', 'Zürich', 'Lagerstrasse', '10');
         $wrongOriginBuilder->addCustomsItem(3, 'DHL Foo', 59, 'EUR', 800, 'kg', 'DE', '123456');
 
         return [
             'missing_receiver_id' => [$missingReceiverIdBuilder, Validator::MSG_RECEIVER_ID_REQUIRED],
+            'invalid_receiver_id' => [$invalidReceiverIdBuilder, Validator::MSG_RECEIVER_ID_INVALID],
+            'invalid_receiver_ids' => [$invalidReceiverIdsBuilder, Validator::MSG_RECEIVER_ID_INVALID],
             'missing_name' => [$missingNameBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
             'missing_city' => [$missingCityBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
             'missing_postal_code' => [$missingPostalCodeBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
@@ -89,7 +98,8 @@ class ReturnLabelRequestBuilderTest extends TestCase
     public function validRequest()
     {
         $builder = new ReturnLabelRequestBuilder();
-        $builder->setAccountDetails($receiverId = 'CH', $customerReference = '22222222225301');
+        $builder->setReceiverId($receiverId = 'che');
+        $builder->setCustomerReference($customerReference = '22222222225301');
         $builder->setShipmentReference($shipmentReference = 'RMA #1');
         $builder->setShipper(
             $shipperName = 'Test Tester',

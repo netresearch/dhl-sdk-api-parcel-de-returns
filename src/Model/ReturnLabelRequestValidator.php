@@ -13,6 +13,7 @@ use Dhl\Sdk\ParcelDe\Returns\Exception\RequestValidatorException;
 class ReturnLabelRequestValidator
 {
     public const MSG_RECEIVER_ID_REQUIRED = 'Receiver ID is required.';
+    public const MSG_RECEIVER_ID_INVALID = 'No Receiver ID found for country %s.';
     public const MSG_SHIPPER_ADDRESS_FIELD_REQUIRED = "'%s' is required for the shipper address.";
     public const MSG_COUNTRY_ISO_INVALID = 'Only ISO 3166-1 alpha-3 country codes are allowed, e.g. "DEU".';
     public const MSG_CURRENCY_INVALID = 'Only %s currency is allowed.';
@@ -57,7 +58,7 @@ class ReturnLabelRequestValidator
      */
     public static function validate(array $data, array $allowedCurrencies, array $allowedUoms): void
     {
-        if (empty($data['receiverId'])) {
+        if (!isset($data['receiverIds']) && !isset($data['receiverId'])) {
             throw new RequestValidatorException(self::MSG_RECEIVER_ID_REQUIRED);
         }
 
@@ -68,8 +69,13 @@ class ReturnLabelRequestValidator
                 }
             }
 
-            if (strlen((string) $data['shipper']['address']['countryCode']) !== 3) {
+            $countryCode = (string) $data['shipper']['address']['countryCode'];
+            if (strlen($countryCode) !== 3) {
                 throw new RequestValidatorException(self::MSG_COUNTRY_ISO_INVALID);
+            }
+
+            if (empty($data['receiverId']) && !isset($data['receiverIds'][$countryCode])) {
+                throw new RequestValidatorException(sprintf(self::MSG_RECEIVER_ID_INVALID, $countryCode));
             }
         }
 

@@ -23,11 +23,23 @@ class ReturnLabelRequestBuilder implements ReturnLabelRequestBuilderInterface
      */
     private array $data = [];
 
-    public function setAccountDetails(
-        string $receiverId,
-        ?string $customerReference = null
-    ): ReturnLabelRequestBuilderInterface {
+    public function setReceiverIds(array $receiverIds): ReturnLabelRequestBuilderInterface
+    {
+        $this->data['receiverIds'] = $receiverIds;
+
+        return $this;
+    }
+
+
+    public function setReceiverId(string $receiverId): ReturnLabelRequestBuilderInterface
+    {
         $this->data['receiverId'] = $receiverId;
+
+        return $this;
+    }
+
+    public function setCustomerReference(string $customerReference): ReturnLabelRequestBuilderInterface
+    {
         $this->data['customerReference'] = $customerReference;
 
         return $this;
@@ -134,10 +146,6 @@ class ReturnLabelRequestBuilder implements ReturnLabelRequestBuilderInterface
             ]
         );
 
-        $returnOrder = new ReturnOrder($this->data['receiverId']);
-        $returnOrder->setCustomerReference($this->data['customerReference']);
-        $returnOrder->setShipmentReference($this->data['shipmentReference'] ?? null);
-
         if (isset($this->data['shipper'])) {
             $shipper = new Shipper(
                 $this->data['shipper']['address']['name'],
@@ -157,13 +165,21 @@ class ReturnLabelRequestBuilder implements ReturnLabelRequestBuilderInterface
                 $shipper->setAdditionalAddressInformation2($streetAddition[1] ?? null);
             }
 
-            $shipper->setCountry($this->data['shipper']['address']['countryCode']);
+            $countryCode = $this->data['shipper']['address']['countryCode'];
+            $shipper->setCountry($countryCode);
             $shipper->setState($this->data['shipper']['address']['state']);
             $shipper->setEmail($this->data['shipper']['contact']['email'] ?? null);
             $shipper->setPhone($this->data['shipper']['contact']['phone'] ?? null);
-
-            $returnOrder->setShipper($shipper);
+            $receiverId = $this->data['receiverIds'][$countryCode] ?? $this->data['receiverId'];
+        } else {
+            $shipper = null;
+            $receiverId = $this->data['receiverId'];
         }
+
+        $returnOrder = new ReturnOrder($receiverId);
+        $returnOrder->setCustomerReference($this->data['customerReference'] ?? null);
+        $returnOrder->setShipmentReference($this->data['shipmentReference'] ?? null);
+        $returnOrder->setShipper($shipper);
 
         if (isset($this->data['package']['weight'])) {
             $itemWeight = new ItemWeight(

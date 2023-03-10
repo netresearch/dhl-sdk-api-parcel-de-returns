@@ -12,6 +12,7 @@ The DHL Parcel DE Returns API SDK package offers an interface to the following w
 
 ### Package Requirements
 
+- `netresearch/jsonmapper`: Mapper for deserialization of JSON response messages into PHP objects
 - `php-http/discovery`: Discovery service for HTTP client and message factory implementations
 - `php-http/httplug`: Pluggable HTTP client abstraction
 - `php-http/logger-plugin`: HTTP client logger plugin for HTTPlug

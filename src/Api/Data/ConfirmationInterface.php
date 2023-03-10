@@ -23,18 +23,11 @@ interface ConfirmationInterface
     public function getShipmentNumber(): string;
 
     /**
-     * Obtain the base64 encoded label PDF binary.
+     * Obtain the international shipment number of the created return label.
      *
      * @return string
      */
-    public function getLabelData(): string;
-
-    /**
-     * Obtain the base64 encoded QR code PNG binary.
-     *
-     * @return string
-     */
-    public function getQrLabelData(): string;
+    public function getInternationalShipmentNumber(): string;
 
     /**
      * Obtain the routing code of the created return label.
@@ -42,4 +35,18 @@ interface ConfirmationInterface
      * @return string
      */
     public function getRoutingCode(): string;
+
+    /**
+     * Obtain the base64 encoded labels and documents PDFs.
+     *
+     * @return string[]
+     */
+    public function getDocuments(): array;
+
+    /**
+     * Obtain the base64 encoded labels and document images.
+     *
+     * @return string[]
+     */
+    public function getQrDocuments(): array;
 }

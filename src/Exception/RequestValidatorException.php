@@ -17,6 +17,6 @@ namespace Dhl\Sdk\ParcelDe\Returns\Exception;
  * @todo(nr): extend DetailedServiceException once it exists
  * @api
  */
-class RequestValidatorException extends \Exception
+class RequestValidatorException extends ServiceException
 {
 }

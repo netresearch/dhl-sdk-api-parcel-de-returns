@@ -28,27 +28,48 @@ interface ReturnLabelRequestBuilderInterface
     public const CURRENCY_SGD = 'SGD';
 
     /**
-     * Set account related data.
+     * Set the business customer's receiver IDs.
      *
-     * The name of the return recipient (receiverId) can be found in the
-     * DHL business customer portal. The customer reference will be printed on
-     * the label
+     * Provide a map of receiver names, indexed by three-letter country code.
+     * The library will attempt to use the proper receiver ID based on the
+     * shipper country.
      *
-     * @param string $receiverId Receiver ID (Retourenempfängername)
-     * @param string|null $customerReference Customer reference (usually order number)
+     * @param array<string, string> $receiverIds
      *
      * @return ReturnLabelRequestBuilderInterface
      */
-    public function setAccountDetails(
-        string $receiverId,
-        ?string $customerReference = null
-    ): ReturnLabelRequestBuilderInterface;
+    public function setReceiverIds(array $receiverIds): ReturnLabelRequestBuilderInterface;
+
+    /**
+     * Set the receiver ID of the return shipment.
+     *
+     * The name of the return recipient (receiverId)
+     * can be found in the DHL business customer portal.
+     *
+     * @param string $receiverId
+     *
+     * @return ReturnLabelRequestBuilderInterface
+     */
+    public function setReceiverId(string $receiverId): ReturnLabelRequestBuilderInterface;
+
+    /**
+     * Set customer reference (optional).
+     *
+     * The customer reference may be used to identify the original customer order.
+     * It is visibly printed on the returns label.
+     *
+     * @param string $customerReference
+     *
+     * @return ReturnLabelRequestBuilderInterface
+     */
+    public function setCustomerReference(string $customerReference): ReturnLabelRequestBuilderInterface;
 
     /**
      * Set shipment reference (optional).
      *
-     * The shipment reference is used to identify a return in the DHL business
-     * customer portal listing. It is not printed on the label.
+     * The shipment reference may be used to identify the return shipment.
+     * It is not visibly printed on the return label but only displayed
+     * in the returns overview of the Post & DHL Business Customer Portal.
      *
      * @param string $shipmentReference
      *
