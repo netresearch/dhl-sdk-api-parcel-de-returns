@@ -26,21 +26,21 @@ class ReturnOrderConfirmation
     /**
      * @var string|null
      */
-    private ?string $internationalShipmentNo;
+    private ?string $internationalShipmentNo = null;
 
     /**
      * Encoded document. All types of labels and documents.
      *
-     * @var Label[]
+     * @var Label|null
      */
-    private array $label;
+    private ?Label $label = null;
 
     /**
      * Encoded document. All types of labels and documents.
      *
-     * @var Label[]|null
+     * @var Label|null
      */
-    private ?array $qrLabel;
+    private ?Label $qrLabel = null;
 
     /**
      * Routing code of the return label.
@@ -64,23 +64,13 @@ class ReturnOrderConfirmation
         return $this->internationalShipmentNo;
     }
 
-    /**
-     * @return Label[]
-     */
-    public function getLabel(): array
+    public function getLabel(): ?Label
     {
         return $this->label;
     }
 
-    /**
-     * @return Label[]
-     */
-    public function getQrLabel(): array
+    public function getQrLabel(): ?Label
     {
-        if (!is_array($this->qrLabel)) {
-            return [];
-        }
-
         return $this->qrLabel;
     }
 

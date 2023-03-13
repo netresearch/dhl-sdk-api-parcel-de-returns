@@ -1,0 +1,5 @@
+{
+  "status": 401,
+  "title": "Unauthorized",
+  "detail": "Authentication failed: User not found or password invalid"
+}

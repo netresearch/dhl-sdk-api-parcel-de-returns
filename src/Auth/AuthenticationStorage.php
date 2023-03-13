@@ -13,10 +13,15 @@ use Dhl\Sdk\ParcelDe\Returns\Api\Data\AuthenticationStorageInterface;
 class AuthenticationStorage implements AuthenticationStorageInterface
 {
     public function __construct(
+        private readonly string $apiKey,
         private readonly string $user,
         private readonly string $password,
-        private readonly string $apiKey,
     ) {
+    }
+
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
     }
 
     public function getUser(): string
@@ -27,10 +32,5 @@ class AuthenticationStorage implements AuthenticationStorageInterface
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
     }
 }

@@ -10,6 +10,8 @@ namespace Dhl\Sdk\ParcelDe\Returns\Service;
 
 use Dhl\Sdk\ParcelDe\Returns\Api\Data\ConfirmationInterface;
 use Dhl\Sdk\ParcelDe\Returns\Api\ReturnLabelServiceInterface;
+use Dhl\Sdk\ParcelDe\Returns\Exception\AuthenticationErrorException;
+use Dhl\Sdk\ParcelDe\Returns\Exception\DetailedErrorException;
 use Dhl\Sdk\ParcelDe\Returns\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\ParcelDe\Returns\Model\ResponseMapper\ConfirmationResponseMapper;
 use Dhl\Sdk\ParcelDe\Returns\Serializer\JsonSerializer;
@@ -48,6 +50,10 @@ class ReturnLabelService implements ReturnLabelServiceInterface
             $responseJson = (string) $response->getBody();
 
             return $this->responseMapper->map($this->serializer->decode($responseJson));
+        } catch (AuthenticationErrorException $exception) {
+            throw ServiceExceptionFactory::createAuthenticationException($exception);
+        } catch (DetailedErrorException $exception) {
+            throw ServiceExceptionFactory::createDetailedServiceException($exception);
         } catch (ClientExceptionInterface $exception) {
             throw ServiceExceptionFactory::createServiceException($exception);
         } catch (\Throwable $exception) {

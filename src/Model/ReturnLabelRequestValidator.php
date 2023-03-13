@@ -13,6 +13,7 @@ use Dhl\Sdk\ParcelDe\Returns\Exception\RequestValidatorException;
 class ReturnLabelRequestValidator
 {
     public const MSG_RECEIVER_ID_REQUIRED = 'Receiver ID is required.';
+    public const MSG_SHIPPER_ADDRESS_REQUIRED = 'Shipper address is required.';
     public const MSG_RECEIVER_ID_INVALID = 'No Receiver ID found for country %s.';
     public const MSG_SHIPPER_ADDRESS_FIELD_REQUIRED = "'%s' is required for the shipper address.";
     public const MSG_COUNTRY_ISO_INVALID = 'Only ISO 3166-1 alpha-3 country codes are allowed, e.g. "DEU".';
@@ -58,24 +59,26 @@ class ReturnLabelRequestValidator
      */
     public static function validate(array $data, array $allowedCurrencies, array $allowedUoms): void
     {
-        if (!isset($data['receiverIds']) && !isset($data['receiverId'])) {
+        if (empty($data['shipper']['address'])) {
+            throw new RequestValidatorException(self::MSG_SHIPPER_ADDRESS_REQUIRED);
+        }
+
+        $countryCode = (string) $data['shipper']['address']['countryCode'];
+        if (strlen($countryCode) !== 3) {
+            throw new RequestValidatorException(self::MSG_COUNTRY_ISO_INVALID);
+        }
+
+        if (empty($data['receiverId']) && empty($data['receiverIds'])) {
             throw new RequestValidatorException(self::MSG_RECEIVER_ID_REQUIRED);
         }
 
-        if (isset($data['shipper'])) {
-            foreach (['name', 'city', 'postalCode'] as $fieldName) {
-                if (empty($data['shipper']['address'][$fieldName])) {
-                    throw new RequestValidatorException(sprintf(self::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED, $fieldName));
-                }
-            }
+        if (empty($data['receiverId']) && !isset($data['receiverIds'][$countryCode])) {
+            throw new RequestValidatorException(sprintf(self::MSG_RECEIVER_ID_INVALID, $countryCode));
+        }
 
-            $countryCode = (string) $data['shipper']['address']['countryCode'];
-            if (strlen($countryCode) !== 3) {
-                throw new RequestValidatorException(self::MSG_COUNTRY_ISO_INVALID);
-            }
-
-            if (empty($data['receiverId']) && !isset($data['receiverIds'][$countryCode])) {
-                throw new RequestValidatorException(sprintf(self::MSG_RECEIVER_ID_INVALID, $countryCode));
+        foreach (['name', 'city', 'postalCode'] as $fieldName) {
+            if (empty($data['shipper']['address'][$fieldName])) {
+                throw new RequestValidatorException(sprintf(self::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED, $fieldName));
             }
         }
 

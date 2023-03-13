@@ -17,15 +17,15 @@ use Dhl\Sdk\ParcelDe\Returns\Exception\RequestValidatorException;
  */
 interface ReturnLabelRequestBuilderInterface
 {
-    public const WEIGHT_KG = 'kg';
-    public const WEIGHT_G = 'g';
+    final public const WEIGHT_KG = 'kg';
+    final public const WEIGHT_G = 'g';
 
-    public const CURRENCY_EUR = 'EUR';
-    public const CURRENCY_USD = 'USD';
-    public const CURRENCY_CZK = 'CZK';
-    public const CURRENCY_GBP = 'GBP';
-    public const CURRENCY_CHF = 'CHF';
-    public const CURRENCY_SGD = 'SGD';
+    final public const CURRENCY_EUR = 'EUR';
+    final public const CURRENCY_USD = 'USD';
+    final public const CURRENCY_CZK = 'CZK';
+    final public const CURRENCY_GBP = 'GBP';
+    final public const CURRENCY_CHF = 'CHF';
+    final public const CURRENCY_SGD = 'SGD';
 
     /**
      * Set the business customer's receiver IDs.

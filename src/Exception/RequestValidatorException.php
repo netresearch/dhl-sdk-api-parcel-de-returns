@@ -14,9 +14,8 @@ namespace Dhl\Sdk\ParcelDe\Returns\Exception;
  * A special instance of the DetailedServiceException which is
  * caused by invalid request data before a web service request was sent.
  *
- * @todo(nr): extend DetailedServiceException once it exists
  * @api
  */
-class RequestValidatorException extends ServiceException
+class RequestValidatorException extends DetailedServiceException
 {
 }

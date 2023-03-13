@@ -12,6 +12,7 @@ use Dhl\Sdk\ParcelDe\Returns\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\ParcelDe\Returns\Api\ReturnLabelServiceInterface;
 use Dhl\Sdk\ParcelDe\Returns\Api\ServiceFactoryInterface;
 use Dhl\Sdk\ParcelDe\Returns\Exception\ServiceExceptionFactory;
+use Dhl\Sdk\ParcelDe\Returns\Http\ClientPlugin\ReturnLabelErrorPlugin;
 use Dhl\Sdk\ParcelDe\Returns\Model\ResponseMapper\ConfirmationResponseMapper;
 use Dhl\Sdk\ParcelDe\Returns\Serializer\JsonSerializer;
 use Dhl\Sdk\ParcelDe\Returns\Service\ReturnLabelService;
@@ -55,6 +56,7 @@ class HttpServiceFactory implements ServiceFactoryInterface
                 new AuthenticationPlugin($appAuth),
                 new ContentLengthPlugin(),
                 new LoggerPlugin($logger, new FullHttpMessageFormatter(null)),
+                new ReturnLabelErrorPlugin(),
             ]
         );
 

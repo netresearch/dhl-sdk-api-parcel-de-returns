@@ -22,13 +22,13 @@ class ReturnLabelRequestBuilderTest extends TestCase
         $missingReceiverIdBuilder = new ReturnLabelRequestBuilder();
         $missingReceiverIdBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
 
-        $invalidReceiverIdBuilder = new ReturnLabelRequestBuilder();
-        $invalidReceiverIdBuilder->setReceiverId('');
-        $invalidReceiverIdBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
-
         $invalidReceiverIdsBuilder = new ReturnLabelRequestBuilder();
         $invalidReceiverIdsBuilder->setReceiverIds(['CHE' => 'che', 'DNK' => 'dnk']);
         $invalidReceiverIdsBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
+
+        $missingShipperBuilder = new ReturnLabelRequestBuilder();
+        $missingShipperBuilder->setReceiverId('deu');
+        $missingShipperBuilder->setShipperContact('tester@nettest.eu', '+00 1337');
 
         $missingNameBuilder = new ReturnLabelRequestBuilder();
         $missingNameBuilder->setReceiverId('deu');
@@ -75,8 +75,8 @@ class ReturnLabelRequestBuilderTest extends TestCase
 
         return [
             'missing_receiver_id' => [$missingReceiverIdBuilder, Validator::MSG_RECEIVER_ID_REQUIRED],
-            'invalid_receiver_id' => [$invalidReceiverIdBuilder, Validator::MSG_RECEIVER_ID_INVALID],
             'invalid_receiver_ids' => [$invalidReceiverIdsBuilder, Validator::MSG_RECEIVER_ID_INVALID],
+            'missing_shipper' => [$missingShipperBuilder, Validator::MSG_SHIPPER_ADDRESS_REQUIRED],
             'missing_name' => [$missingNameBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
             'missing_city' => [$missingCityBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
             'missing_postal_code' => [$missingPostalCodeBuilder, Validator::MSG_SHIPPER_ADDRESS_FIELD_REQUIRED],
@@ -193,7 +193,7 @@ class ReturnLabelRequestBuilderTest extends TestCase
     public function invalidRequest(ReturnLabelRequestBuilder $builder, string $exceptionMessage)
     {
         self::expectException(RequestValidatorException::class);
-        if (strpos($exceptionMessage, '%s') !== false) {
+        if (str_contains($exceptionMessage, '%s')) {
             $regularExpression = str_replace('%s', '.+', $exceptionMessage);
             self::expectExceptionMessageMatches("|$regularExpression|");
         } else {

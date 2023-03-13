@@ -146,35 +146,30 @@ class ReturnLabelRequestBuilder implements ReturnLabelRequestBuilderInterface
             ]
         );
 
-        if (isset($this->data['shipper'])) {
-            $shipper = new Shipper(
-                $this->data['shipper']['address']['name'],
-                $this->data['shipper']['address']['city'],
-                $this->data['shipper']['address']['postalCode']
-            );
+        $shipper = new Shipper(
+            $this->data['shipper']['address']['name'],
+            $this->data['shipper']['address']['city'],
+            $this->data['shipper']['address']['postalCode']
+        );
 
-            $shipper->setName2($this->data['shipper']['address']['company']);
-            $shipper->setName3($this->data['shipper']['address']['nameAddition']);
+        $shipper->setName2($this->data['shipper']['address']['company']);
+        $shipper->setName3($this->data['shipper']['address']['nameAddition']);
 
-            $shipper->setAddressStreet($this->data['shipper']['address']['streetName']);
-            $shipper->setAddressHouse($this->data['shipper']['address']['streetNumber']);
+        $shipper->setAddressStreet($this->data['shipper']['address']['streetName']);
+        $shipper->setAddressHouse($this->data['shipper']['address']['streetNumber']);
 
-            if (is_array($this->data['shipper']['address']['streetAddition'])) {
-                $streetAddition = array_filter($this->data['shipper']['address']['streetAddition']);
-                $shipper->setAdditionalAddressInformation1($streetAddition[0] ?? null);
-                $shipper->setAdditionalAddressInformation2($streetAddition[1] ?? null);
-            }
-
-            $countryCode = $this->data['shipper']['address']['countryCode'];
-            $shipper->setCountry($countryCode);
-            $shipper->setState($this->data['shipper']['address']['state']);
-            $shipper->setEmail($this->data['shipper']['contact']['email'] ?? null);
-            $shipper->setPhone($this->data['shipper']['contact']['phone'] ?? null);
-            $receiverId = $this->data['receiverIds'][$countryCode] ?? $this->data['receiverId'];
-        } else {
-            $shipper = null;
-            $receiverId = $this->data['receiverId'];
+        if (is_array($this->data['shipper']['address']['streetAddition'])) {
+            $streetAddition = array_filter($this->data['shipper']['address']['streetAddition']);
+            $shipper->setAdditionalAddressInformation1($streetAddition[0] ?? null);
+            $shipper->setAdditionalAddressInformation2($streetAddition[1] ?? null);
         }
+
+        $countryCode = $this->data['shipper']['address']['countryCode'];
+        $shipper->setCountry($countryCode);
+        $shipper->setState($this->data['shipper']['address']['state']);
+        $shipper->setEmail($this->data['shipper']['contact']['email'] ?? null);
+        $shipper->setPhone($this->data['shipper']['contact']['phone'] ?? null);
+        $receiverId = $this->data['receiverIds'][$countryCode] ?? $this->data['receiverId'];
 
         $returnOrder = new ReturnOrder($receiverId);
         $returnOrder->setCustomerReference($this->data['customerReference'] ?? null);

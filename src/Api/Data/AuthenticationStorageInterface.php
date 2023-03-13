@@ -15,9 +15,9 @@ namespace Dhl\Sdk\ParcelDe\Returns\Api\Data;
  */
 interface AuthenticationStorageInterface
 {
+    public function getApiKey(): string;
+
     public function getUser(): string;
 
     public function getPassword(): string;
-
-    public function getApiKey(): string;
 }

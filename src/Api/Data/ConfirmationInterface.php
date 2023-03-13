@@ -39,14 +39,14 @@ interface ConfirmationInterface
     /**
      * Obtain the base64 encoded labels and documents PDFs.
      *
-     * @return string[]
+     * @return string
      */
-    public function getDocuments(): array;
+    public function getLabelData(): string;
 
     /**
      * Obtain the base64 encoded labels and document images.
      *
-     * @return string[]
+     * @return string
      */
-    public function getQrDocuments(): array;
+    public function getQrLabelData(): string;
 }

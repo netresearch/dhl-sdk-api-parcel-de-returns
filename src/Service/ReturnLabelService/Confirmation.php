@@ -16,15 +16,15 @@ class Confirmation implements ConfirmationInterface
      * @param string $shipmentNumber
      * @param string $internationalShipmentNumber
      * @param string $routingCode
-     * @param string[] $documents
-     * @param string[] $qrDocuments
+     * @param string $labelData
+     * @param string $qrLabelData
      */
     public function __construct(
         private readonly string $shipmentNumber,
         private readonly string $internationalShipmentNumber,
         private readonly string $routingCode,
-        private readonly array $documents,
-        private readonly array $qrDocuments,
+        private readonly string $labelData,
+        private readonly string $qrLabelData,
     ) {
     }
 
@@ -43,13 +43,13 @@ class Confirmation implements ConfirmationInterface
         return $this->routingCode;
     }
 
-    public function getDocuments(): array
+    public function getLabelData(): string
     {
-        return $this->documents;
+        return $this->labelData;
     }
 
-    public function getQrDocuments(): array
+    public function getQrLabelData(): string
     {
-        return $this->qrDocuments;
+        return $this->qrLabelData;
     }
 }
