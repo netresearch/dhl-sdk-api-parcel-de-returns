@@ -53,5 +53,10 @@
         "allow-plugins": {
             "php-http/discovery": false
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
     }
 }
