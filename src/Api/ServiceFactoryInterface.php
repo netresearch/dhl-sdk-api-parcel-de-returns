@@ -25,12 +25,6 @@ interface ServiceFactoryInterface
     /**
      * Create the service able to perform return shipment label requests.
      *
-     * @param AuthenticationStorageInterface $authStorage
-     * @param LoggerInterface $logger
-     * @param bool $sandboxMode
-     *
-     * @return ReturnLabelServiceInterface
-     *
      * @throws ServiceException
      */
     public function createReturnLabelService(

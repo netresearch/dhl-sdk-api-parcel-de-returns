@@ -17,7 +17,7 @@ class ReturnLabelRequestBuilderTest extends TestCase
     /**
      * @return ReturnLabelRequestBuilder[][]
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         $missingReceiverIdBuilder = new ReturnLabelRequestBuilder();
         $missingReceiverIdBuilder->setShipper('Test Tester', 'DEU', '04229', 'Leipzig', 'Klingerweg', '6');
@@ -92,10 +92,10 @@ class ReturnLabelRequestBuilderTest extends TestCase
     /**
      * Assert valid request is built properly.
      *
-     * @test
      * @throws RequestValidatorException
      */
-    public function validRequest()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function validRequest(): void
     {
         $builder = new ReturnLabelRequestBuilder();
         $builder->setReceiverId($receiverId = 'che');
@@ -183,14 +183,11 @@ class ReturnLabelRequestBuilderTest extends TestCase
     /**
      * Assert invalid requests throw RequestValidatorException.
      *
-     * @test
-     * @dataProvider dataProvider
-     *
-     * @param ReturnLabelRequestBuilder $builder
-     * @param string $exceptionMessage
      * @throws RequestValidatorException
      */
-    public function invalidRequest(ReturnLabelRequestBuilder $builder, string $exceptionMessage)
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function invalidRequest(ReturnLabelRequestBuilder $builder, string $exceptionMessage): void
     {
         self::expectException(RequestValidatorException::class);
         if (str_contains($exceptionMessage, '%s')) {

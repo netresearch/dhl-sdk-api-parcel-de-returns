@@ -35,6 +35,7 @@ The DHL Parcel DE Returns API SDK package offers an interface to the following w
 - `phpstan/phpstan`: Static analysis tool
 - `fig/log-test`: PSR-3 logger implementation for testing purposes
 - `squizlabs/php_codesniffer`: Static analysis tool
+- `rector/rector`: Automatic refactoring tool to help with PHP upgrades
 
 ## Installation
 

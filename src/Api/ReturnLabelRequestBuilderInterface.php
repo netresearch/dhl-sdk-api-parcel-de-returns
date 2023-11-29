@@ -35,8 +35,6 @@ interface ReturnLabelRequestBuilderInterface
      * shipper country.
      *
      * @param array<string, string> $receiverIds
-     *
-     * @return ReturnLabelRequestBuilderInterface
      */
     public function setReceiverIds(array $receiverIds): ReturnLabelRequestBuilderInterface;
 
@@ -45,10 +43,6 @@ interface ReturnLabelRequestBuilderInterface
      *
      * The name of the return recipient (receiverId)
      * can be found in the DHL business customer portal.
-     *
-     * @param string $receiverId
-     *
-     * @return ReturnLabelRequestBuilderInterface
      */
     public function setReceiverId(string $receiverId): ReturnLabelRequestBuilderInterface;
 
@@ -57,10 +51,6 @@ interface ReturnLabelRequestBuilderInterface
      *
      * The customer reference may be used to identify the original customer order.
      * It is visibly printed on the returns label.
-     *
-     * @param string $customerReference
-     *
-     * @return ReturnLabelRequestBuilderInterface
      */
     public function setCustomerReference(string $customerReference): ReturnLabelRequestBuilderInterface;
 
@@ -70,28 +60,13 @@ interface ReturnLabelRequestBuilderInterface
      * The shipment reference may be used to identify the return shipment.
      * It is not visibly printed on the return label but only displayed
      * in the returns overview of the Post & DHL Business Customer Portal.
-     *
-     * @param string $shipmentReference
-     *
-     * @return ReturnLabelRequestBuilderInterface
      */
     public function setShipmentReference(string $shipmentReference): ReturnLabelRequestBuilderInterface;
 
     /**
      * Set the sender of the return shipment (the consumer).
      *
-     * @param string $name
-     * @param string $countryCode
-     * @param string $postalCode
-     * @param string $city
-     * @param string $streetName
-     * @param string $streetNumber
-     * @param string|null $company
-     * @param string|null $nameAddition
-     * @param string[] $streetAddition
-     * @param string|null $state
-     *
-     * @return ReturnLabelRequestBuilderInterface
+     * @param null|string[] $streetAddition
      */
     public function setShipper(
         string $name,
@@ -108,28 +83,11 @@ interface ReturnLabelRequestBuilderInterface
 
     /**
      * Set contact data of the sender (the consumer, optional).
-     *
-     * @param string $email
-     * @param string|null $phone
-     *
-     * @return ReturnLabelRequestBuilderInterface
      */
     public function setShipperContact(string $email, ?string $phone = null): ReturnLabelRequestBuilderInterface;
 
-    /**
-     * @param float $value
-     * @param string $uom
-     *
-     * @return ReturnLabelRequestBuilderInterface
-     */
     public function setPackageWeight(float $value, string $uom = self::WEIGHT_KG): ReturnLabelRequestBuilderInterface;
 
-    /**
-     * @param float $value
-     * @param string $currency
-     *
-     * @return ReturnLabelRequestBuilderInterface
-     */
     public function setPackageValue(
         float $value,
         string $currency = self::CURRENCY_EUR
@@ -138,16 +96,14 @@ interface ReturnLabelRequestBuilderInterface
     /**
      * Add an item to be declared, mandatory if customs form ("CN23") is required.
      *
-     * @param int $qty Amount of items declared per position.
-     * @param string $description Description of the returned item.
-     * @param float $value Monetary value of returned item.
-     * @param string $currency Currency for item value.
-     * @param float $weight Weight of the returned item.
-     * @param string $weightUom Unit of measurement for item weight.
+     * @param int         $qty             Amount of items declared per position.
+     * @param string      $description     Description of the returned item.
+     * @param float       $value           Monetary value of returned item.
+     * @param string      $currency        Currency for item value.
+     * @param float       $weight          Weight of the returned item.
+     * @param string      $weightUom       Unit of measurement for item weight.
      * @param string|null $countryOfOrigin Country the returned item was produced.
-     * @param string|null $hsCode Customs tariff number.
-     *
-     * @return ReturnLabelRequestBuilderInterface
+     * @param string|null $hsCode          Customs tariff number.
      */
     public function addCustomsItem(
         int $qty,
@@ -162,8 +118,6 @@ interface ReturnLabelRequestBuilderInterface
 
     /**
      * Create the return label request and reset the builder data.
-     *
-     * @return \JsonSerializable
      *
      * @throws RequestValidatorException
      */

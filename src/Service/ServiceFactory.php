@@ -14,7 +14,7 @@ use Dhl\Sdk\ParcelDe\Returns\Api\ServiceFactoryInterface;
 use Dhl\Sdk\ParcelDe\Returns\Exception\ServiceExceptionFactory;
 use Dhl\Sdk\ParcelDe\Returns\Http\HttpServiceFactory;
 use Http\Discovery\Exception\NotFoundException;
-use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Log\LoggerInterface;
 
 class ServiceFactory implements ServiceFactoryInterface
@@ -25,7 +25,7 @@ class ServiceFactory implements ServiceFactoryInterface
         bool $sandboxMode = false
     ): ReturnLabelServiceInterface {
         try {
-            $httpClient = HttpClientDiscovery::find();
+            $httpClient = Psr18ClientDiscovery::find();
         } catch (NotFoundException $exception) {
             throw ServiceExceptionFactory::create($exception);
         }

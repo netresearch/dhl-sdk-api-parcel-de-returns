@@ -28,7 +28,7 @@ class ReturnLabelServiceTest extends TestCase
      * @return \JsonSerializable[][]|string[][]
      * @throws RequestValidatorException
      */
-    public function successDataProvider(): array
+    public static function successDataProvider(): array
     {
         return ReturnLabelServiceTestProvider::labelSuccess();
     }
@@ -37,7 +37,7 @@ class ReturnLabelServiceTest extends TestCase
      * @return \JsonSerializable[][]|string[][]
      * @throws RequestValidatorException
      */
-    public function unauthorizedDataProvider(): array
+    public static function unauthorizedDataProvider(): array
     {
         return ReturnLabelServiceTestProvider::unauthorizedError();
     }
@@ -46,22 +46,22 @@ class ReturnLabelServiceTest extends TestCase
      * @return \JsonSerializable[][]|string[][]
      * @throws RequestValidatorException
      */
-    public function badRequestDataProvider(): array
+    public static function badRequestDataProvider(): array
     {
         return ReturnLabelServiceTestProvider::badRequestError();
     }
 
     /**
-     * @test
-     * @dataProvider successDataProvider
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('successDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function bookLabelSuccess(
         AuthenticationStorageInterface $authStorage,
         ReturnOrder $returnOrder,
         string $labelType,
         string $responseBody
-    ) {
+    ): void {
         $httpClient = new Client();
 
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
@@ -86,16 +86,16 @@ class ReturnLabelServiceTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider unauthorizedDataProvider
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('unauthorizedDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function unauthorized(
         AuthenticationStorageInterface $authStorage,
         ReturnOrder $returnOrder,
         string $labelType,
         string $responseBody
-    ) {
+    ): void {
         $this->expectExceptionCode(401);
         $this->expectException(AuthenticationException::class);
 
@@ -128,16 +128,16 @@ class ReturnLabelServiceTest extends TestCase
     }
 
     /**
-     * @test
-     * @dataProvider badRequestDataProvider
      * @throws ServiceException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('badRequestDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function badRequest(
         AuthenticationStorageInterface $authStorage,
         ReturnOrder $returnOrder,
         string $labelType,
         string $responseBody
-    ) {
+    ): void {
         $this->expectExceptionCode(400);
         $this->expectException(DetailedServiceException::class);
 

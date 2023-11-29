@@ -12,20 +12,18 @@ use Dhl\Sdk\ParcelDe\Returns\Exception\RequestValidatorException;
 
 class ReturnLabelRequestValidator
 {
-    public const MSG_RECEIVER_ID_REQUIRED = 'Receiver ID is required.';
-    public const MSG_SHIPPER_ADDRESS_REQUIRED = 'Shipper address is required.';
-    public const MSG_RECEIVER_ID_INVALID = 'No Receiver ID found for country %s.';
-    public const MSG_SHIPPER_ADDRESS_FIELD_REQUIRED = "'%s' is required for the shipper address.";
-    public const MSG_COUNTRY_ISO_INVALID = 'Only ISO 3166-1 alpha-3 country codes are allowed, e.g. "DEU".';
-    public const MSG_CURRENCY_INVALID = 'Only %s currency is allowed.';
-    public const MSG_WEIGHT_UOM_INVALID = 'Only %s weight unit is allowed.';
-    public const MSG_CUSTOMS_POSITIONS_COUNT = 'Between 1 and 20 customs items must be added.';
-    public const MSG_CUSTOMS_POSITION_FIELD_REQUIRED = "'%s' is required for the customs item.";
+    final public const MSG_RECEIVER_ID_REQUIRED = 'Receiver ID is required.';
+    final public const MSG_SHIPPER_ADDRESS_REQUIRED = 'Shipper address is required.';
+    final public const MSG_RECEIVER_ID_INVALID = 'No Receiver ID found for country %s.';
+    final public const MSG_SHIPPER_ADDRESS_FIELD_REQUIRED = "'%s' is required for the shipper address.";
+    final public const MSG_COUNTRY_ISO_INVALID = 'Only ISO 3166-1 alpha-3 country codes are allowed, e.g. "DEU".';
+    final public const MSG_CURRENCY_INVALID = 'Only %s currency is allowed.';
+    final public const MSG_WEIGHT_UOM_INVALID = 'Only %s weight unit is allowed.';
+    final public const MSG_CUSTOMS_POSITIONS_COUNT = 'Between 1 and 20 customs items must be added.';
+    final public const MSG_CUSTOMS_POSITION_FIELD_REQUIRED = "'%s' is required for the customs item.";
 
     /**
-     * @param string $weightUom
-     * @param string[] $allowedUoms
-     *
+     * @param  string[] $allowedUoms
      * @throws RequestValidatorException
      */
     private static function validateWeightUom(string $weightUom, array $allowedUoms): void
@@ -36,9 +34,7 @@ class ReturnLabelRequestValidator
     }
 
     /**
-     * @param string $currency
-     * @param string[] $allowedCurrencies
-     *
+     * @param  string[] $allowedCurrencies
      * @throws RequestValidatorException
      */
     private static function validateCurrency(string $currency, array $allowedCurrencies): void
@@ -52,8 +48,8 @@ class ReturnLabelRequestValidator
      * Validate request data before sending it to the web service.
      *
      * @param string[]|string[][][]|int[][][]|float[][][] $data
-     * @param string[] $allowedCurrencies
-     * @param string[] $allowedUoms
+     * @param string[]                                    $allowedCurrencies
+     * @param string[]                                    $allowedUoms
      *
      * @throws RequestValidatorException
      */
@@ -109,10 +105,13 @@ class ReturnLabelRequestValidator
 
             self::validateCurrency((string) $customsItem['currency'], $allowedCurrencies);
             self::validateWeightUom((string) $customsItem['weightUom'], $allowedUoms);
-
-            if (!empty($customsItem['countryOfOrigin']) && strlen((string) $customsItem['countryOfOrigin']) !== 3) {
-                throw new RequestValidatorException(self::MSG_COUNTRY_ISO_INVALID);
+            if (empty($customsItem['countryOfOrigin'])) {
+                continue;
             }
+            if (strlen((string) $customsItem['countryOfOrigin']) === 3) {
+                continue;
+            }
+            throw new RequestValidatorException(self::MSG_COUNTRY_ISO_INVALID);
         }
     }
 }

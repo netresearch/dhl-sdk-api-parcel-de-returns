@@ -17,36 +17,26 @@ interface ConfirmationInterface
 {
     /**
      * Obtain the shipment number of the created return label.
-     *
-     * @return string
      */
     public function getShipmentNumber(): string;
 
     /**
      * Obtain the international shipment number of the created return label.
-     *
-     * @return string
      */
     public function getInternationalShipmentNumber(): string;
 
     /**
      * Obtain the routing code of the created return label.
-     *
-     * @return string
      */
     public function getRoutingCode(): string;
 
     /**
      * Obtain the base64 encoded labels and documents PDFs.
-     *
-     * @return string
      */
     public function getLabelData(): string;
 
     /**
      * Obtain the base64 encoded labels and document images.
-     *
-     * @return string
      */
     public function getQrLabelData(): string;
 }

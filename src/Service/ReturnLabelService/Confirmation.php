@@ -12,13 +12,6 @@ use Dhl\Sdk\ParcelDe\Returns\Api\Data\ConfirmationInterface;
 
 class Confirmation implements ConfirmationInterface
 {
-    /**
-     * @param string $shipmentNumber
-     * @param string $internationalShipmentNumber
-     * @param string $routingCode
-     * @param string $labelData
-     * @param string $qrLabelData
-     */
     public function __construct(
         private readonly string $shipmentNumber,
         private readonly string $internationalShipmentNumber,

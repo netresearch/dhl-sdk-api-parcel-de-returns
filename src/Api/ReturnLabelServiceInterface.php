@@ -27,9 +27,7 @@ interface ReturnLabelServiceInterface
      * Create a return label.
      *
      * @param \JsonSerializable $returnOrder Details of the return label that should be created.
-     * @param string $labelType Controls which documents are returned.
-     *
-     * @return ConfirmationInterface
+     * @param string            $labelType   Controls which documents are returned.
      *
      * @throws AuthenticationException
      * @throws ServiceException

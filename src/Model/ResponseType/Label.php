@@ -12,8 +12,6 @@ class Label
 {
     /**
      * The encoded byte stream.
-     *
-     * @var string
      */
     private string $b64;
 

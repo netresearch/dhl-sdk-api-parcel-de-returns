@@ -11,18 +11,10 @@ namespace Dhl\Sdk\ParcelDe\Returns\Model\RequestType;
 class CustomsDetails implements \JsonSerializable
 {
     /**
-     * The customs items to be declared.
-     *
-     * @var CustomsItem[]
+     * @param CustomsItem[] $items The customs items to be declared.
      */
-    private array $items;
-
-    /**
-     * @param CustomsItem[] $items
-     */
-    public function __construct(array $items)
+    public function __construct(private readonly array $items)
     {
-        $this->items = $items;
     }
 
     /**

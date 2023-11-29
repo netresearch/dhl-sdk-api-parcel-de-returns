@@ -11,55 +11,29 @@ namespace Dhl\Sdk\ParcelDe\Returns\Model\RequestType;
 class CustomsItem implements \JsonSerializable
 {
     /**
-     * Description of the declared item.
-     *
-     * @var string
-     */
-    private string $itemDescription;
-
-    /**
-     * Amount of the declared item(s).
-     *
-     * @var int
-     */
-    private int $packagedQuantity;
-
-    /**
-     * @var ItemWeight
-     */
-    private ItemWeight $itemWeight;
-
-    /**
-     * @var ItemValue
-     */
-    private ItemValue $itemValue;
-
-    /**
      * Country where the returned item was produced.
      *
      * A valid country code consisting of three characters according to ISO 3166-1 alpha-3.
-     *
-     * @var string|null
      */
-    private ?string $countryOfOrigin;
+    private ?string $countryOfOrigin = null;
 
     /**
      * Harmonized System Code aka Customs tariff number.
-     *
-     * @var string|null
      */
-    private ?string $hsCode;
+    private ?string $hsCode = null;
 
+    /**
+     * @param string $itemDescription Description of the declared item.
+     * @param int $packagedQuantity Amount of the declared item(s).
+     * @param ItemWeight $itemWeight
+     * @param ItemValue $itemValue
+     */
     public function __construct(
-        string $itemDescription,
-        int $packagedQuantity,
-        ItemWeight $itemWeight,
-        ItemValue $itemValue
+        private readonly string $itemDescription,
+        private readonly int $packagedQuantity,
+        private readonly ItemWeight $itemWeight,
+        private readonly ItemValue $itemValue
     ) {
-        $this->itemDescription = $itemDescription;
-        $this->packagedQuantity = $packagedQuantity;
-        $this->itemWeight = $itemWeight;
-        $this->itemValue = $itemValue;
     }
 
     public function setCountryOfOrigin(?string $countryOfOrigin): void

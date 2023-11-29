@@ -10,27 +10,17 @@ namespace Dhl\Sdk\ParcelDe\Returns\Model\RequestType;
 
 class ItemWeight implements \JsonSerializable
 {
-    public const WEIGHT_G = 'g';
-    public const WEIGHT_KG = 'kg';
+    final public const WEIGHT_G = 'g';
+    final public const WEIGHT_KG = 'kg';
 
     /**
-     * Unit of measurement. Metric unit for weight.
-     *
-     * @var string
+     * @param string $uom Unit of measurement. Metric unit for weight.
+     * @param float $value Weight of item or shipment.
      */
-    private string $uom;
-
-    /**
-     * Weight of item or shipment.
-     *
-     * @var float
-     */
-    private float $value;
-
-    public function __construct(string $uom, float $value)
-    {
-        $this->uom = $uom;
-        $this->value = $value;
+    public function __construct(
+        private readonly string $uom,
+        private readonly float $value
+    ) {
     }
 
     /**

@@ -11,103 +11,69 @@ namespace Dhl\Sdk\ParcelDe\Returns\Model\RequestType;
 class Shipper implements \JsonSerializable
 {
     /**
-     * Line 1 of name information
-     *
-     * @var string
+     * An optional, additional line of name information.
      */
-    private string $name1;
+    private ?string $name2 = null;
 
     /**
      * An optional, additional line of name information.
-     *
-     * @var string|null
      */
-    private ?string $name2;
-
-    /**
-     * An optional, additional line of name information.
-     *
-     * @var string|null
-     */
-    private ?string $name3;
+    private ?string $name3 = null;
 
     /**
      * This is just the street name.
-     *
-     * @var string|null
      */
-    private ?string $addressStreet;
+    private ?string $addressStreet = null;
 
     /**
      * This is just the house number.
-     *
-     * @var string|null
      */
-    private ?string $addressHouse;
+    private ?string $addressHouse = null;
 
     /**
      * Line 2 of the street address. Most of the time this is not needed and not printed to most labels.
      *
      * Example: 3rd Floor
-     *
-     * @var string|null
      */
-    private ?string $additionalAddressInformation1;
+    private ?string $additionalAddressInformation1 = null;
 
     /**
      * Line 3 of the street address. Rarely needed and not printed to most labels.
      *
      * Example: Apartment 12
-     *
-     * @var string|null
      */
-    private ?string $additionalAddressInformation2;
-
-    /**
-     * @var string
-     */
-    private string $city;
+    private ?string $additionalAddressInformation2 = null;
 
     /**
      * Three-letter country code.
-     *
-     * @var string|null
      */
-    private ?string $country;
+    private ?string $country = null;
 
     /**
      * Contact email address.
-     *
-     * @var string|null
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * Contact phone number.
-     *
-     * @var string|null
      */
-    private ?string $phone;
-
-    /**
-     * Postal code, relaxed UPU version.
-     *
-     * @var string
-     */
-    private string $postalCode;
+    private ?string $phone = null;
 
     /**
      * Region code.
-     *
-     * @var string|null
      */
-    private ?string $state;
+    private ?string $state = null;
 
-    public function __construct(string $name1, string $city, string $postalCode)
-    {
-        $this->name1 = $name1;
-        $this->city = $city;
-        $this->postalCode = $postalCode;
+    /**
+     * @param string $name1 Line 1 of name information
+     * @param string $city
+     * @param string $postalCode Postal code, relaxed UPU version.
+     */
+    public function __construct(
+        private readonly string $name1,
+        private readonly string $city,
+        private readonly string $postalCode
+    ) {
     }
 
     public function setName2(?string $name2): void

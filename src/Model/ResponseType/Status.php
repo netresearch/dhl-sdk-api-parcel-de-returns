@@ -10,34 +10,22 @@ namespace Dhl\Sdk\ParcelDe\Returns\Model\ResponseType;
 
 class Status
 {
-    /**
-     * @var string
-     */
     private string $title;
 
-    /**
-     * @var int
-     */
     private int $status;
 
     /**
      * A URI reference [RFC3986] that identifies the problem type and is human-readable.
-     *
-     * @var string|null
      */
     private ?string $type;
 
     /**
      * A human-readable explanation specific to this occurrence of the problem.
-     *
-     * @var string|null
      */
     private ?string $detail;
 
     /**
      * A URI reference that identifies the specific occurrence of the problem.
-     *
-     * @var string|null
      */
     private ?string $instance;
 

@@ -14,38 +14,25 @@ class ReturnOrderConfirmation
      * Standard elements for JSON status.
      *
      * @link https://tools.ietf.org/html/rfc7807
-     * @var Status
      */
     private Status $status;
 
-    /**
-     * @var string
-     */
     private string $shipmentNo;
 
-    /**
-     * @var string|null
-     */
     private ?string $internationalShipmentNo = null;
 
     /**
      * Encoded document. All types of labels and documents.
-     *
-     * @var Label|null
      */
     private ?Label $label = null;
 
     /**
      * Encoded document. All types of labels and documents.
-     *
-     * @var Label|null
      */
     private ?Label $qrLabel = null;
 
     /**
      * Routing code of the return label.
-     *
-     * @var string
      */
     private string $routingCode;
 
