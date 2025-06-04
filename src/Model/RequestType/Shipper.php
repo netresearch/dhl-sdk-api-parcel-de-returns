@@ -66,7 +66,6 @@ class Shipper implements \JsonSerializable
 
     /**
      * @param string $name1 Line 1 of name information
-     * @param string $city
      * @param string $postalCode Postal code, relaxed UPU version.
      */
     public function __construct(

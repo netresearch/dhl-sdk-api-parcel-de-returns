@@ -25,8 +25,6 @@ class CustomsItem implements \JsonSerializable
     /**
      * @param string $itemDescription Description of the declared item.
      * @param int $packagedQuantity Amount of the declared item(s).
-     * @param ItemWeight $itemWeight
-     * @param ItemValue $itemValue
      */
     public function __construct(
         private readonly string $itemDescription,

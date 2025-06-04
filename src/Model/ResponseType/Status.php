@@ -17,17 +17,17 @@ class Status
     /**
      * A URI reference [RFC3986] that identifies the problem type and is human-readable.
      */
-    private ?string $type;
+    private ?string $type = null;
 
     /**
      * A human-readable explanation specific to this occurrence of the problem.
      */
-    private ?string $detail;
+    private ?string $detail = null;
 
     /**
      * A URI reference that identifies the specific occurrence of the problem.
      */
-    private ?string $instance;
+    private ?string $instance = null;
 
     public function getTitle(): string
     {
